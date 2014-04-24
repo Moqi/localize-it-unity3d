@@ -6,7 +6,7 @@ public class EntryPoint : MonoBehaviour
 {
     void Awake ()
     {
-        var localize = new LocalizeItStorage ();
+        EntryPoint.Localize = new LocalizeItStorage ();
       
         var manifest = Resources.Load<TextAsset> ("localize_it/manifest").text;
         var locales = SimpleJSON.JSON.Parse (manifest) ["locales"].AsArray;
@@ -14,12 +14,15 @@ public class EntryPoint : MonoBehaviour
         for (int i = 0; i < locales.Count; i++) {
             var localeId = locales [i].Value;
             var localeSource = Resources.Load<TextAsset> (string.Format (path, localeId)).text;
-            localize.AddLocaleSource (localeSource, localeId);
+            Localize.AddLocaleSource (localeSource, localeId);
         }
 
-        localize.SetLocale ("en-US");
-        Debug.Log (localize.Get("button_name"));
-        localize.SetLocale ("ru-RU");
-        Debug.Log (localize.Get("button_name"));
+        Localize.SetLocale ("en-US");
+        Debug.Log (Localize.Get("button_name"));
+        Localize.SetLocale ("ru-RU");
+        Debug.Log (Localize.Get("button_name"));
+        this.gameObject.AddComponent<GuiExample> ();
     }
+
+    public static LocalizeItStorage Localize;
 }
