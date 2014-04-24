@@ -2,38 +2,45 @@
 using System.Collections;
 using System.Globalization;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LocalizeIt
 {
     public class LocalizeItStorage
     {
-        private string mCurrentLocaleId;
-        Dictionary<string, SimpleJSON.JSONNode> mLocales = new Dictionary<string, SimpleJSON.JSONNode> ();
+        public string CurrentLocaleId {
+            get;
+            private set;
+        }
+        Dictionary<string, Dictionary<string, object>> mLocales = new Dictionary<string, Dictionary<string, object>> ();
 
-        public string Get(string _id)
+        public string Get (string _id)
         {
-            if (Storage[_id] != null)
-                return Storage [_id].Value;
+            if (Storage.ContainsKey (_id))
+                return (string)Storage [_id];
 
-            Debug.LogWarning (string.Format("LocalizeIt: Undefined value for key: {0}", _id));
-            return "";
+            Debug.LogWarning (string.Format ("LocalizeIt: Undefined value for key: \"{0}\". locale id: \"{1}\"", _id, CurrentLocaleId));
+            return "undefined text";
         }
 
-        public void AddLocaleSource(string _source, string _localeId)
+        public void AddLocaleSource (string _source, string _localeId)
         {
-            var source = SimpleJSON.JSON.Parse (_source);
+            var source = JSON.Parse (_source);
             mLocales.Add (_localeId, source);
-
         }
 
-        public void SetLocale(string _localeId)
+        public void SetLocale (string _localeId)
         {
             if (!mLocales.ContainsKey (_localeId))
-                throw new KeyNotFoundException (string.Format("LocalizeId: Undefined localeId: {0}", _localeId));
-            mCurrentLocaleId = _localeId;
+                throw new KeyNotFoundException (string.Format ("LocalizeId: Undefined localeId: {0}", _localeId));
+            CurrentLocaleId = _localeId;
             Storage = mLocales [_localeId];
         }
 
-        SimpleJSON.JSONNode Storage;
+        public string[] AvailableLocales {
+            get { return mLocales.Keys.ToArray (); }
+        }
+
+        Dictionary<string, object> Storage;
     }
 }

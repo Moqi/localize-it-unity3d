@@ -1,6 +1,6 @@
 {
-	"menu_title": "Простой текст",
-    "button_name": "Просто кнопка",
-    "another_button_name": "Другая кнопка",
+	"current_language": "Текущий язык - русский",
+    "switch_language_button_name": "Переключить язык",
+    "just_button_name": "Просто кнопка",
     "description": "Localize It! Разруливает! +)"
 }

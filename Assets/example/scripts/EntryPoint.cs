@@ -1,26 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using LocalizeIt;
+using JsonFx;
 
 public class EntryPoint : MonoBehaviour
 {
     void Awake ()
     {
         EntryPoint.Localize = new LocalizeItStorage ();
-      
-        var manifest = Resources.Load<TextAsset> ("localize_it/manifest").text;
-        var locales = SimpleJSON.JSON.Parse (manifest) ["locales"].AsArray;
+
+        var manifestSource = Resources.Load<TextAsset> ("localize_it/manifest").text;
+        var manifest = JSON.Parse (manifestSource);
+        var locales = (string[])manifest ["locales"];
+
         string path = "localize_it/{0}/locale";
-        for (int i = 0; i < locales.Count; i++) {
-            var localeId = locales [i].Value;
+        for (int i = 0; i < locales.Length; i++) {
+            var localeId = locales [i];
             var localeSource = Resources.Load<TextAsset> (string.Format (path, localeId)).text;
             Localize.AddLocaleSource (localeSource, localeId);
         }
 
-        Localize.SetLocale ("en-US");
-        Debug.Log (Localize.Get("button_name"));
         Localize.SetLocale ("ru-RU");
-        Debug.Log (Localize.Get("button_name"));
         this.gameObject.AddComponent<GuiExample> ();
     }
 
