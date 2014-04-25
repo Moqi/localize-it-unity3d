@@ -1,27 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class GuiExample : MonoBehaviour
 {
     int mCurrentLangIndex = 0;
+    string mUserName = "Alexi Smallrus";
+    GUIStyle centerStyle;
 
     void Start()
     {
         mCurrentLangIndex = Array.IndexOf(EntryPoint.Localize.AvailableLocales, EntryPoint.Localize.CurrentLocaleId);
+        centerStyle = new GUIStyle ();
+        centerStyle.alignment = TextAnchor.MiddleCenter;
+        centerStyle.normal.textColor = Color.white;
     }
+
 
     void OnGUI ()
     {
         // Make a background box
-        GUI.Box (new Rect (10, 10, 200, 90), EntryPoint.Localize.Get ("current_language"));
+        mUserName = GUI.TextField (new Rect (10, 20, 240, 20), mUserName);
+        GUI.Box (new Rect (10, 50, 240, 200), EntryPoint.Localize.Get ("current_language"));
 
-        if (GUI.Button (new Rect (20, 40, 180, 20), EntryPoint.Localize.Get ("switch_language_button_name")))
+        if (GUI.Button (new Rect (40, 80, 180, 20), EntryPoint.Localize.Get ("switch_language_button_name")))
             SwitchLanguage ();
 
-        if (GUI.Button (new Rect (20, 70, 180, 20), EntryPoint.Localize.Get ("just_button_name"))) {
-            Debug.Log ("click to button 2");
-        }
+        GUI.Label (new Rect (40, 110, 180, 20), EntryPoint.Localize.Get ("description", new Dictionary<string, string>(){{"userName", mUserName}}), centerStyle);
     }
 
     void SwitchLanguage()

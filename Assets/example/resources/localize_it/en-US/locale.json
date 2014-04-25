@@ -1,6 +1,5 @@
 {
 	"current_language": "Current language is english",
     "switch_language_button_name": "Switch language",
-    "just_button_name": "Just button",
-    "description": "Localize It! Rules! +)"
+    "description": "Hello, {userName}!\nLocalization is simple +)"
 }

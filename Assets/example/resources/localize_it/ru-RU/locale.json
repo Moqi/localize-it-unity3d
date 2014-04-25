@@ -1,6 +1,5 @@
 {
 	"current_language": "Текущий язык - русский",
     "switch_language_button_name": "Переключить язык",
-    "just_button_name": "Просто кнопка",
-    "description": "Localize It! Разруливает! +)"
+    "description": "{userName}, Преветствую тебя!\nЛокализация это просто +)"
 }

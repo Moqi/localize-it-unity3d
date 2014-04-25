@@ -23,6 +23,16 @@ namespace LocalizeIt
             return "undefined text";
         }
 
+        public string Get (string _id, Dictionary<string, string> _replace)
+        {
+            var source = Get (_id);
+            foreach (var key in _replace.Keys) {
+                var value = _replace [key];
+                source = source.Replace ("{" + key + "}", value);
+            }
+            return source;
+        }
+
         public void AddLocaleSource (string _source, string _localeId)
         {
             var source = JSON.Parse (_source);
